@@ -20,6 +20,7 @@ import static com.android.systemui.statusbar.phone.StatusBarIconHolder.TYPE_BLUE
 import static com.android.systemui.statusbar.phone.StatusBarIconHolder.TYPE_BINDABLE;
 import static com.android.systemui.statusbar.phone.StatusBarIconHolder.TYPE_ICON;
 import static com.android.systemui.statusbar.phone.StatusBarIconHolder.TYPE_MOBILE_NEW;
+import static com.android.systemui.statusbar.phone.StatusBarIconHolder.TYPE_NETWORK_TRAFFIC;
 import static com.android.systemui.statusbar.phone.StatusBarIconHolder.TYPE_WIFI_NEW;
 
 import android.annotation.Nullable;
@@ -50,6 +51,7 @@ import com.android.systemui.statusbar.pipeline.shared.ui.view.ModernStatusBarVie
 import com.android.systemui.statusbar.pipeline.wifi.ui.WifiUiAdapter;
 import com.android.systemui.statusbar.pipeline.wifi.ui.view.ModernStatusBarWifiView;
 import com.android.systemui.statusbar.pipeline.wifi.ui.viewmodel.LocationBasedWifiViewModel;
+import com.android.systemui.statusbar.policy.NetworkTrafficSB;
 import com.android.systemui.util.Assert;
 
 import java.util.ArrayList;
@@ -155,6 +157,7 @@ public class IconManager implements DemoModeCommandReceiver {
                 // Safe cast, since only BindableIconHolders can set this tag on themselves
                 addBindableIcon((BindableIconHolder) holder, index);
             case TYPE_BLUETOOTH -> addBluetoothIcon(index, slot, blocked, holder.getBluetoothState());
+            case TYPE_NETWORK_TRAFFIC -> addNetworkTraffic(index, slot);
             default -> null;
         };
     }
@@ -185,6 +188,12 @@ public class IconManager implements DemoModeCommandReceiver {
         return view;
     }
 
+    protected NetworkTrafficSB addNetworkTraffic(int index, String slot) {
+        NetworkTrafficSB view = onCreateNetworkTraffic(slot);
+        mGroup.addView(view, index, onCreateLayoutParams());
+        return view;
+    }
+    
     protected StatusIconDisplayable addNewWifiIcon(int index, String slot) {
         ModernStatusBarWifiView view = onCreateModernStatusBarWifiView(slot);
         mGroup.addView(view, index, onCreateLayoutParams());
@@ -252,6 +261,12 @@ public class IconManager implements DemoModeCommandReceiver {
         return view;
     }
 
+    private NetworkTrafficSB onCreateNetworkTraffic(String slot) {
+        NetworkTrafficSB view = new NetworkTrafficSB(mContext);
+        view.setPadding(2, 0, 2, 0);
+        return view;
+    }
+
     protected LinearLayout.LayoutParams onCreateLayoutParams() {
         return new LinearLayout.LayoutParams(ViewGroup.LayoutParams.WRAP_CONTENT, mIconSize);
     }
@@ -287,6 +302,7 @@ public class IconManager implements DemoModeCommandReceiver {
             case TYPE_MOBILE_NEW:
             case TYPE_WIFI_NEW:
             case TYPE_BINDABLE:
+            case TYPE_NETWORK_TRAFFIC:
                 // Nothing, the new icons update themselves
                 return;
             case TYPE_BLUETOOTH:

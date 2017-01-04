@@ -118,7 +118,9 @@ public class SystemSettings {
                 Settings.System.NOTIFICATION_COOLDOWN_VIBRATE_UNLOCKED,
                 Settings.System.RINGTONE_VIBRATION_PATTERN,
                 Settings.System.NOTIFICATION_VIBRATION_PATTERN,
-                Settings.System.NAVBAR_LONG_PRESS_GESTURE
+                Settings.System.NAVBAR_LONG_PRESS_GESTURE,
+                Settings.System.NETWORK_TRAFFIC_STATE,
+                Settings.System.NETWORK_TRAFFIC_AUTOHIDE_THRESHOLD
         ));
         if (Flags.backUpSmoothDisplayAndForcePeakRefreshRate()) {
             settings.add(Settings.System.PEAK_REFRESH_RATE);
