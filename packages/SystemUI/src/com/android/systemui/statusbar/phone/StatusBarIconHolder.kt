@@ -180,6 +180,8 @@ open class StatusBarIconHolder private constructor() {
             val holder = StatusBarIconHolder()
             holder.bluetoothState = state
             holder.type = TYPE_BLUETOOTH
+            return holder
+        }
 
         @JvmStatic
         fun fromNetworkTraffic(): StatusBarIconHolder {
